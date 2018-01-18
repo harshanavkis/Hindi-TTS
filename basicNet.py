@@ -27,3 +27,4 @@ class HighwayFcNet(nn.Module):
 		h_out = self.activation(self.plain(x))
 		t_out = self.gate_activation(self.gate(x))
 		return torch.add(torch.mul(h_out,t_out),torch.mul((1.0-t_out),x))
+
