@@ -28,3 +28,14 @@ class HighwayFcNet(nn.Module):
 		t_out = self.gate_activation(self.gate(x))
 		return torch.add(torch.mul(h_out,t_out),torch.mul((1.0-t_out),x))
 
+class ConvNet1D(nn.Module):
+	"""
+		A basic convnet to create bigger nets easily.
+	"""
+
+	def __init__(self, inputChannels, outputChannels, kernelSize):
+		super(convnet, self).__init__()
+		self.conv = nn.Conv1d(inputChannels, outputChannels, kernelSize)
+
+	def forward(self, x):
+		return F.relu(self.conv(x))
