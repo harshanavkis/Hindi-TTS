@@ -34,7 +34,7 @@ class ConvNet1D(nn.Module):
 	"""
 
 	def __init__(self, inputChannels, outputChannels, kernelSize):
-		super(convnet, self).__init__()
+		super(ConvNet1D, self).__init__()
 		self.conv = nn.Conv1d(inputChannels, outputChannels, kernelSize)
 
 	def forward(self, x):

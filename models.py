@@ -5,23 +5,23 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 
 class HighwayFcModel(nn.Module):
-	def __init__(self, inDims, input_size, output_size, numLayers, activation='ReLU', gate_activation='Sigmoid', bias = -1.0):
+	def __init__(self, input_size, numLayers, activation='ReLU', gate_activation='Sigmoid', bias = -1.0):
 		super(HighwayFcModel,self).__init__()
 		self.highways = nn.ModuleList([basicNet.HighwayFcNet(input_size,numLayers,activation,gate_activation) for _ in range(numLayers)])
-		self.linear = nn.Linear(input_size,output_size)
-		self.dimChange  = nn.Linear(inDims, input_size)
+		# self.linear = nn.Linear(input_size,output_size)
+		# self.dimChange  = nn.Linear(inDims, input_size)
 
 	def forward(self, x):
-		x = F.relu(self.dimChange(x))
+		# x = F.relu(self.dimChange(x))
 		for h in self.highways:
 			x = h(x)
-		x = F.softmax(self.linear(x))
+		# x = F.softmax(self.linear(x))
 		return x 
 
 
 class ConvModel1D(nn.Module):
-	def __init__(self, inputChannels, outputChannels, kernelWidths, usePool):
-		super(ConvModel1D, self).__init()
+	def __init__(self, inputChannels, outputChannels, kernelWidths, usePool=False):
+		super(ConvModel1D, self).__init__()
 		self.bank = [nn.ModuleList([basicNet.ConvNet1D(inputChannels, outputChannels, kernelWidths[i]) for i in range(len(kernelWidths))])]
 		self.pool = nn.MaxPool1d(2, 1)
 		self.usePool = usePool
